@@ -1,6 +1,6 @@
 import Navbar from "@/components/NavBar";
 import prismadb from "@/lib/prismadb";
-import { UserButton, auth } from "@clerk/nextjs";
+import {  auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 
 async function dashboardLayout({
