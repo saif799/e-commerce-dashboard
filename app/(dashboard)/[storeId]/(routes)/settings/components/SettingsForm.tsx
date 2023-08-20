@@ -1,6 +1,8 @@
 "use client";
 
 import Heading from "@/components/Heading";
+import { AlertModal } from "@/components/modals/alert-modal";
+import ApiAlert from "@/components/ui/api-alert";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -12,6 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { useOrigin } from "@/hooks/useOrigin";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Store } from "@prisma/client";
 import axios from "axios";
@@ -33,6 +36,8 @@ type SettingsFOrmValues = z.infer<typeof formSchema>;
 export const SettingsForm: React.FC<settingsFormProps> = ({ initialData }) => {
   const params = useParams();
 
+  const origin = useOrigin();
+
   const [open, setOpen] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -47,8 +52,7 @@ export const SettingsForm: React.FC<settingsFormProps> = ({ initialData }) => {
   const onSubmit = async (data: SettingsFOrmValues) => {
     try {
       setLoading(true);
-      const res = await axios.patch(`/api/stores/${params.storeId}`, data);
-      console.log("should be updated", res);
+      await axios.patch(`/api/stores/${params.storeId}`, data);
 
       router.refresh();
 
@@ -59,9 +63,31 @@ export const SettingsForm: React.FC<settingsFormProps> = ({ initialData }) => {
       setLoading(false);
     }
   };
+  const onDelete = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(`/api/stores/${params.storeId}`);
+
+      router.refresh();
+      router.push("/");
+
+      toast.success("store deleted.");
+    } catch (error) {
+      toast.error("make sure you moved all products and categories first.");
+    } finally {
+      setLoading(false);
+      setOpen(false);
+    }
+  };
 
   return (
     <>
+      <AlertModal
+        onConfirm={onDelete}
+        isOpen={open}
+        onclose={() => {}}
+        loading={loading}
+      />
       <div className="flex items-center justify-between">
         <Heading title="Settings" description="Manage store Preferences" />
 
@@ -107,6 +133,12 @@ export const SettingsForm: React.FC<settingsFormProps> = ({ initialData }) => {
           </Button>
         </form>
       </Form>
+      <Separator />
+      <ApiAlert
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/${params.storeId}`}
+        variant="public"
+      />
     </>
   );
 };
