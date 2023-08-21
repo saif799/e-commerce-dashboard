@@ -24,7 +24,7 @@ export const Modal: React.FC<ModalProps> = ({
   children,
 }) => {
   const onChange = (open: boolean) => {
-    if (!open) onClose();
+    onClose();
   };
 
   return (

@@ -1,6 +1,5 @@
 import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
-import { error } from "console";
 import { NextResponse } from "next/server";
 
 export async function PATCH(
@@ -54,6 +53,7 @@ export async function DELETE(
 ) {
   try {
     const { userId } = auth();
+    console.log(params.billboardId);
 
     if (!userId) return new NextResponse("unauthenticated ", { status: 401 });
     if (!params.billboardId)
@@ -74,6 +74,7 @@ export async function DELETE(
         id: params.billboardId,
       },
     });
+    console.log("second one ", params.billboardId);
 
     return NextResponse.json(billboard);
   } catch (error) {
@@ -87,11 +88,9 @@ export async function GET(
   { params }: { params: { billboardId: string } }
 ) {
   try {
-
     if (!params.billboardId)
       return new NextResponse("billboard id is required", { status: 400 });
 
-   
     const billboard = await prismadb.billboard.findUnique({
       where: {
         id: params.billboardId,

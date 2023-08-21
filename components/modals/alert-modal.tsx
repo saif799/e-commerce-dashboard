@@ -6,13 +6,13 @@ import { Button } from "@/components/ui/button";
 
 interface AlertModalprops {
   isOpen: boolean;
-  onclose: () => void;
+  onClose: () => void;
   onConfirm: () => void;
   loading: boolean;
 }
 export const AlertModal: React.FC<AlertModalprops> = ({
   isOpen,
-  onclose,
+  onClose,
   onConfirm,
   loading,
 }) => {
@@ -29,10 +29,10 @@ export const AlertModal: React.FC<AlertModalprops> = ({
       title="Are you sure"
       description="This action cannot be undone"
       isOpen={isOpen}
-      onClose={onclose}
+      onClose={onClose}
     >
       <div className="pt-6 space-x-2 flex items-center justify-end w-full">
-        <Button disabled={loading} variant={"outline"} onClick={onclose}>
+        <Button disabled={loading} variant={"outline"} onClick={onClose}>
           Cancel
         </Button>
         <Button disabled={loading} variant={"destructive"} onClick={onConfirm}>
