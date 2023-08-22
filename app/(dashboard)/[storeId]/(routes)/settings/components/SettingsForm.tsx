@@ -85,7 +85,7 @@ export const SettingsForm: React.FC<settingsFormProps> = ({ initialData }) => {
       <AlertModal
         onConfirm={onDelete}
         isOpen={open}
-        onclose={() => {}}
+        onClose={() => {}}
         loading={loading}
       />
       <div className="flex items-center justify-between">
