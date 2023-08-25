@@ -5,15 +5,15 @@ import { Plus } from "lucide-react";
 import Heading from "@/components/Heading";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
-import { BillboardColumns, columns } from "./columns";
+import { ProductColumns, columns } from "./columns";
 import { DataTable } from "@/components/ui/data-table";
 import APiList from "@/components/ui/api-list";
 
-interface BillboardClientProps {
-  data: BillboardColumns[];
+interface ProductClientProps {
+  data: ProductColumns[];
 }
 
-const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
+const ProductClient: React.FC<ProductClientProps> = ({ data }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -21,12 +21,12 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
     <>
       <div className="flex items-center justify-between  ">
         <Heading
-          title={`Billboards ${data.length}`}
-          description="Manage billboards for your store"
+          title={`Products ${data.length}`}
+          description="Manage Products for your store"
         />
 
         <Button
-          onClick={() => router.push(`/${params.storeId}/billboards/new`)}
+          onClick={() => router.push(`/${params.storeId}/products/new`)}
         >
           <Plus className=" mr-2 h-4 w-4" />
           Add new
@@ -35,13 +35,13 @@ const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
 
       <Separator />
 
-      <DataTable searchKey="label" columns={columns} data={data} />
+      <DataTable searchKey="name" columns={columns} data={data} />
 
-      <Heading title="APi" description="Api calls for Billboards" />
+      <Heading title="APi" description="Api calls for Products" />
       <Separator />
-      <APiList entityIdName="BIllboardId" entityName="billboards" />
+      <APiList entityIdName="productID" entityName="products" />
     </>
   );
 };
 
-export default BillboardClient;
+export default ProductClient;
