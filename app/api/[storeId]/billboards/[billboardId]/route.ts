@@ -53,7 +53,6 @@ export async function DELETE(
 ) {
   try {
     const { userId } = auth();
-    console.log(params.billboardId);
 
     if (!userId) return new NextResponse("unauthenticated ", { status: 401 });
     if (!params.billboardId)
@@ -74,7 +73,6 @@ export async function DELETE(
         id: params.billboardId,
       },
     });
-    console.log("second one ", params.billboardId);
 
     return NextResponse.json(billboard);
   } catch (error) {

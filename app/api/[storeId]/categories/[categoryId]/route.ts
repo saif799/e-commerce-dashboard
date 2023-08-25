@@ -2,33 +2,13 @@ import prismadb from "@/lib/prismadb";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function GET(
-  req: Request,
-  { params }: { params: { categoryId: string } }
-) {
-  try {
-    if (!params.categoryId)
-      return new NextResponse("category id is required", { status: 400 });
-
-    const category = await prismadb.category.findUnique({
-      where: {
-        id: params.categoryId,
-      },
-    });
-
-    return NextResponse.json(category);
-  } catch (error) {
-    console.log("CATEGORY_GET", error);
-    return new NextResponse("iternal error", { status: 500 });
-  }
-}
 export async function PATCH(
   req: Request,
-  { params }: { params: { storeId: string; categoryId: string } }
+  { params }: { params: { categoryId: string; storeId: string } }
 ) {
   try {
     const { userId } = auth();
- 
+
     const body = await req.json();
 
     const { name, billboardId } = body;
@@ -66,6 +46,26 @@ export async function PATCH(
     return new NextResponse("iternal error", { status: 500 });
   }
 }
+export async function GET(
+  req: Request,
+  { params }: { params: { categoryId: string } }
+) {
+  try {
+    if (!params.categoryId)
+      return new NextResponse("category id is required", { status: 400 });
+
+    const category = await prismadb.category.findUnique({
+      where: {
+        id: params.categoryId,
+      },
+    });
+
+    return NextResponse.json(category);
+  } catch (error) {
+    console.log("CATEGORY_GET", error);
+    return new NextResponse("iternal error", { status: 500 });
+  }
+}
 
 export async function DELETE(
   req: Request,
@@ -73,7 +73,6 @@ export async function DELETE(
 ) {
   try {
     const { userId } = auth();
-    console.log(params.categoryId);
 
     if (!userId) return new NextResponse("unauthenticated ", { status: 401 });
     if (!params.categoryId)
@@ -94,7 +93,6 @@ export async function DELETE(
         id: params.categoryId,
       },
     });
-    console.log("second one ", params.categoryId);
 
     return NextResponse.json(category);
   } catch (error) {

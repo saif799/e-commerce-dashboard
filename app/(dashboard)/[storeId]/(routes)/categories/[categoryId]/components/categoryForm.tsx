@@ -67,7 +67,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
       setLoading(true);
       if (initialData)
         await axios.patch(
-          `/api/${params.storeId}/categories/${params.categoriyId}`,
+          `/api/${params.storeId}/categories/${params.categoryId}`,
           data
         );
       else await axios.post(`/api/${params.storeId}/categories`, data);
@@ -87,7 +87,7 @@ export const CategoryForm: React.FC<CategoryFormProps> = ({
     try {
       setLoading(true);
       await axios.delete(
-        `/api/${params.storeId}/categories/${params.categoriyId}`
+        `/api/${params.storeId}/categories/${params.categoryId}`
       );
 
       router.refresh();

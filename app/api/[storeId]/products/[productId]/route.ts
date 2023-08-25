@@ -93,7 +93,6 @@ export async function DELETE(
 ) {
   try {
     const { userId } = auth();
-    console.log(params.productId);
 
     if (!userId) return new NextResponse("unauthenticated ", { status: 401 });
     if (!params.productId)
